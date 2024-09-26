@@ -19,19 +19,22 @@
             font-family: 'Poppins', sans-serif; 
             background: linear-gradient(to bottom, #ffc0cb, #ffffff); 
             display: flex; 
-            justify-content: center; 
-            align-items: center;
             flex-direction: column; 
+            justify-content: flex-start;
+            align-items: center;
             font-size: 20px; 
         }
 
         /* Header styling */
         .header {
+            width: 100%;
             display: flex;
             justify-content: center;
-            padding: 1px;
-            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
+            padding: 3px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
         }
 
         .header a {
@@ -55,10 +58,10 @@
 
         /* Blog post container */
         .container {
-            max-width: 800px;
+            margin-top: 125px; /* Adding margin to avoid overlap with the header */
+            max-width: 2000px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 40px;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -76,6 +79,7 @@
             font-size: 16px;
             margin-bottom: 20px;
             font-weight: 300;
+            text-align: left;
         }
 
         .divider {
@@ -94,11 +98,12 @@
 </head>
 <body>
 
-    <!-- Optional header links or navigation -->
+    <!-- Header at the top of the page -->
     <div class="header">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/stuff">Stuff</a>
+        <a href="/credits">Credits</a>
     </div>
 
     <!-- Blog post content -->
