@@ -1,0 +1,263 @@
+<!doctype html> 
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>clue's silly website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Import Poppins font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { 
+            height: 170%; 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(to bottom, #ffc0cb, #ffffff); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            font-size: 20px; 
+        }
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: center;
+            padding: 1px;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+        }
+
+        .header a {
+            color: #000;
+            padding: 12px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-right: 1px solid #555;
+            transition: background-color 0.3s;
+        }
+
+        .header a:last-child {
+            border-right: none;
+        }
+
+        .header a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Sidebar (Profile) */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align items to the top */
+            gap: 20px; /* Added spacing between sidebar and posts */
+            flex-grow: 1;
+        }
+
+        .sidebar {
+            width: 35%;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-height: 20%; /* Ensures sidebar expands to match height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Recent Posts Section */
+        .recent-posts {
+            width: 70%;
+        }
+
+        .recent-posts h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .post {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .post-meta {
+            font-size: 0.8em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .post-description {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Load More Button */
+        .load-more {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .load-more:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        footer {
+            text-align: right;
+            padding: 10px 20px;
+            color: #808080;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar, .recent-posts {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .sidebar {
+                min-height: auto; /* Remove fixed height for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header section -->
+    <div class="header">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/notthere.html">Stuff</a>
+        <a href="/notthere.html">Credits</a>
+    </div>
+
+    <!-- Main content (Profile and Posts) -->
+    <div class="container">
+        
+        <!-- Sidebar / Profile Section -->
+        <div class="sidebar">
+            <div class="profile-pic">
+                <img src="/img/profile.jpg" alt="Profile Picture">
+            </div>
+            <div class="profile-name">Cluestorm</div>
+            <div class="profile-description">I'm so silly even I think I'm silly</div>
+        </div>
+
+        <!-- Recent Posts Section -->
+        <div class="recent-posts">
+            <h2>Recent Posts</h2>
+
+            <div id="post-container">
+                <!-- Blog Posts will be dynamically inserted here -->
+            </div>
+
+            <!-- Load More Button -->
+            <button class="load-more" id="loadMoreButton">Load More Posts</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Made with ❤️ • &copy; Daniel (Chloe) Withaker 2024
+    </footer>
+
+    <script>
+        // Array of blog posts (this would typically come from a database)
+        const posts = [
+            { title: "Post Title 1", link: "https://example.com/blogpost1", meta: "Small description", description: "Actual description for post 1." },
+            { title: "Post Title 2", link: "https://cluestorm.neocities.org/blog/arch", meta: "Small description", description: "Actual description for post 2." },
+            { title: "Post Title 3", link: "https://example.com/blogpost3", meta: "Small description", description: "Actual description for post 3." },
+            { title: "Post Title 4", link: "https://example.com/blogpost4", meta: "Small description", description: "Actual description for post 4." },
+            { title: "Post Title 5", link: "https://example.com/blogpost5", meta: "Small description", description: "Actual description for post 5." },
+            { title: "Post Title 6", link: "https://example.com/blogpost6", meta: "Small description", description: "Actual description for post 6." },
+            { title: "Post Title 7", link: "https://example.com/blogpost7", meta: "Small description", description: "Actual description for post 7." },
+            // Add more posts as needed
+        ];
+
+        let currentPostIndex = 0;
+        const postsPerPage = 4;
+
+        function loadPosts() {
+            const postContainer = document.getElementById("post-container");
+            for (let i = 0; i < postsPerPage; i++) {
+                if (currentPostIndex >= posts.length) break; // Exit if no more posts
+                const post = posts[currentPostIndex];
+                const postElement = document.createElement("div");
+                postElement.className = "post";
+                postElement.innerHTML = `
+                    <a href="${post.link}" class="post-title" target="_blank">${post.title}</a>
+                    <div class="post-meta">${post.meta}</div>
+                    <div class="post-description">${post.description}</div>
+                `;
+                postContainer.appendChild(postElement);
+                currentPostIndex++;
+            }
+            // Hide the button if all posts are loaded
+            if (currentPostIndex >= posts.length) {
+                document.getElementById("loadMoreButton").style.display = "none";
+            }
+        }
+
+        // Load initial posts
+        loadPosts();
+
+        // Add event listener for the "Load More" button
+        document.getElementById("loadMoreButton").addEventListener("click", loadPosts);
+    </script>
+
+</body>
+</html>
