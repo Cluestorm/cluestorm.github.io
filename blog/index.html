@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -54,8 +54,8 @@
             padding: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Align items to the top */
-            gap: 20px; /* Added spacing between sidebar and posts */
+            align-items: flex-start;
+            gap: 20px; 
             flex-grow: 1;
         }
 
@@ -65,10 +65,6 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            min-height: 20%; /* Ensures sidebar expands to match height */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .profile-pic {
@@ -120,6 +116,7 @@
             font-weight: 600;
             margin-bottom: 5px;
             color: #007bff;
+            text-decoration: none;
         }
 
         .post-meta {
@@ -168,10 +165,6 @@
                 width: 100%;
                 margin-bottom: 20px;
             }
-
-            .sidebar {
-                min-height: auto; /* Remove fixed height for smaller screens */
-            }
         }
     </style>
 </head>
@@ -181,13 +174,12 @@
     <div class="header">
         <a href="/">Home</a>
         <a href="/blog">Blog</a>
-        <a href="/notthere.html">Stuff</a>
-        <a href="/notthere.html">Credits</a>
+        <a href="/stuff">Stuff</a>
+        <a href="/credits">Credits</a>
     </div>
 
     <!-- Main content (Profile and Posts) -->
     <div class="container">
-        
         <!-- Sidebar / Profile Section -->
         <div class="sidebar">
             <div class="profile-pic">
@@ -200,12 +192,7 @@
         <!-- Recent Posts Section -->
         <div class="recent-posts">
             <h2>Recent Posts</h2>
-
-            <div id="post-container">
-                <!-- Blog Posts will be dynamically inserted here -->
-            </div>
-
-            <!-- Load More Button -->
+            <div id="post-container"></div>
             <button class="load-more" id="loadMoreButton">Load More Posts</button>
         </div>
     </div>
@@ -216,46 +203,65 @@
     </footer>
 
     <script>
-        // Array of blog posts (this would typically come from a database)
+        // Blog posts array with date, title, and description
         const posts = [
-            { title: "Post Title 1", link: "https://example.com/blogpost1", meta: "Small description", description: "Actual description for post 1." },
-            { title: "Post Title 2", link: "https://cluestorm.github.io/blog/arch", meta: "Small description", description: "Actual description for post 2." },
-            { title: "Post Title 3", link: "https://example.com/blogpost3", meta: "Small description", description: "Actual description for post 3." },
-            { title: "Post Title 4", link: "https://example.com/blogpost4", meta: "Small description", description: "Actual description for post 4." },
-            { title: "Post Title 5", link: "https://example.com/blogpost5", meta: "Small description", description: "Actual description for post 5." },
-            { title: "Post Title 6", link: "https://example.com/blogpost6", meta: "Small description", description: "Actual description for post 6." },
-            { title: "Post Title 7", link: "https://example.com/blogpost7", meta: "Small description", description: "Actual description for post 7." },
-            // Add more posts as needed
+            { title: "Post Title 1", link: "https://example.com/blogpost1", description: "Lorem ipsum", date: "2024-09-09" },
+            { title: "Post Title 2", link: "https://cluestorm.github.io/blog/arch", description: "Lorem ipsum", date: "2024-09-09" },
+            { title: "Post Title 3", link: "https://example.com/blogpost3", description: "Lorem ipsum", date: "2024-09-09" },
+            { title: "Post Title 4", link: "https://example.com/blogpost4", description: "Lorem ipsum", date: "2024-09-09" },
+            { title: "Post Title 5", link: "https://example.com/blogpost5", description: "Lorem ipsum", date: "2024-09-09" },
+            { title: "Post Title 6", link: "https://example.com/blogpost6", description: "Lorem ipsum", date: "2024-09-09" },
+            { title: "Post Title 7", link: "https://example.com/blogpost7", description: "Lorem ipsum", date: "2024-09-09" }
         ];
 
         let currentPostIndex = 0;
         const postsPerPage = 4;
 
+        // Sort posts by date in descending order
+        const sortedPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // Function to create and append posts to the container
+        function createPostElement(post) {
+            const postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            const postTitle = document.createElement("a");
+            postTitle.classList.add("post-title");
+            postTitle.href = post.link;
+            postTitle.textContent = post.title;
+            postTitle.target = "_blank";
+
+            const postMeta = document.createElement("div");
+            postMeta.classList.add("post-meta");
+            postMeta.textContent = `Published on ${new Date(post.date).toLocaleDateString()}`;
+
+            const postDescription = document.createElement("div");
+            postDescription.classList.add("post-description");
+            postDescription.textContent = post.description;
+
+            postElement.append(postTitle, postMeta, postDescription);
+            return postElement;
+        }
+
+        // Function to load posts
         function loadPosts() {
             const postContainer = document.getElementById("post-container");
-            for (let i = 0; i < postsPerPage; i++) {
-                if (currentPostIndex >= posts.length) break; // Exit if no more posts
-                const post = posts[currentPostIndex];
-                const postElement = document.createElement("div");
-                postElement.className = "post";
-                postElement.innerHTML = `
-                    <a href="${post.link}" class="post-title" target="_blank">${post.title}</a>
-                    <div class="post-meta">${post.meta}</div>
-                    <div class="post-description">${post.description}</div>
-                `;
-                postContainer.appendChild(postElement);
-                currentPostIndex++;
-            }
-            // Hide the button if all posts are loaded
-            if (currentPostIndex >= posts.length) {
+
+            const postsToLoad = sortedPosts.slice(currentPostIndex, currentPostIndex + postsPerPage);
+            postsToLoad.forEach(post => postContainer.appendChild(createPostElement(post)));
+
+            currentPostIndex += postsPerPage;
+
+            // Hide "Load More" button if all posts are loaded
+            if (currentPostIndex >= sortedPosts.length) {
                 document.getElementById("loadMoreButton").style.display = "none";
             }
         }
 
-        // Load initial posts
+        // Initial load of posts
         loadPosts();
 
-        // Add event listener for the "Load More" button
+        // Add event listener for "Load More" button
         document.getElementById("loadMoreButton").addEventListener("click", loadPosts);
     </script>
 
