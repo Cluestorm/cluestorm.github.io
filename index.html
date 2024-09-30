@@ -162,8 +162,8 @@
     <!-- Main content with image, title, description, and clock -->
     <main>
         <div class="left-content">
-            <div class="image-circle">
-                <img src="/img/profile.jpg" alt="Profile Picture">
+            <div class="image-circle" id="profile-image">
+                <img src="/img/profile.jpg" alt="Profile Picture" id="profile-pic">
             </div>
             <div class="text-content">
                 <div class="text">Cluestorm</div>
@@ -197,6 +197,22 @@
                 document.body.classList.add('mobile'); // Add 'mobile' class to body if mobile
             }
         }
+
+        // Switch between static image and GIF
+        function toggleImage() {
+            const img = document.getElementById('profile-pic');
+            const currentSrc = img.getAttribute('src');
+            
+            // Check current source and switch
+            if (currentSrc === '/img/profile.jpg') {
+                img.setAttribute('src', '/img/animated.gif'); // Replace with the path to your GIF
+            } else {
+                img.setAttribute('src', '/img/profile.jpg'); // Switch back to the static image
+            }
+        }
+
+        // Add event listener to the image for click
+        document.getElementById('profile-image').addEventListener('click', toggleImage);
 
         setInterval(updateClock, 1000); // Update every second
         updateClock(); // Initial call to display clock immediately
